@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- SAME <head> AS index.html -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+
+
+  <!-- ADD THESE -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+
+  <style>
+    .product-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  margin-bottom: 60px;
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+.product-details {
+  margin-top: 25px;
+}
+
+.product-details h2 {
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.product-details p {
+  color: var(--text-light);
+}
+
+    .product-card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      margin-bottom: 60px;
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    .product-details {
+      margin-top: 25px;
+    }
+
+    .product-details h2 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .product-details p {
+      color: var(--text-light);
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="glass-header">
+  <!-- SAME HEADER AS index.html -->
+</header>
+<main style="padding-top:120px">
+  <section class="section-pad">
+    <h1 style="text-align:center;color:var(--primary);margin-bottom:40px;">
+      Our Products
+    </h1>
+
+    <div id="product-container"></div>
+  </section>
+</main>
+
+
+<footer>
+  <!-- SAME FOOTER AS index.html -->
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+<script>
+  new Swiper('.product-swiper', {
+    loop: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    }
+  });
+
+  GLightbox({ selector: '.glightbox' });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script src="product.js"></script>
+
+</body>
+</html>
