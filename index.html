@@ -1,107 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- SAME <head> AS index.html -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+  <meta charset="UTF-8" />
+  <title>TechZone Electronics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-  <!-- ADD THESE -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    .product-card {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  margin-bottom: 60px;
-}
-
-.product-card img {
-  width: 100%;
-  border-radius: 15px;
-}
-
-.product-details {
-  margin-top: 25px;
-}
-
-.product-details h2 {
-  color: var(--primary);
-  margin-bottom: 10px;
-}
-
-.product-details p {
-  color: var(--text-light);
-}
-
-    .product-card {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      margin-bottom: 60px;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, sans-serif;
     }
 
-    .product-card img {
+    body {
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: white;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.5);
+      padding: 16px 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 24px;
+      background: linear-gradient(90deg,#60a5fa,#a78bfa);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-weight: bold;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .hero h2 {
+      font-size: clamp(40px, 6vw, 70px);
+      margin-bottom: 16px;
+    }
+
+    .hero span {
+      display: block;
+      background: linear-gradient(90deg,#60a5fa,#a78bfa);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .products {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .3s, box-shadow .3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 40px rgba(96,165,250,0.25);
+    }
+
+    .card img {
       width: 100%;
-      border-radius: 15px;
+      height: 220px;
+      object-fit: cover;
     }
 
-    .product-details {
-      margin-top: 25px;
+    .card .info {
+      padding: 16px;
     }
 
-    .product-details h2 {
-      color: var(--primary);
-      margin-bottom: 10px;
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
     }
 
-    .product-details p {
-      color: var(--text-light);
+    .card p {
+      font-size: 13px;
+      color: #cbd5f5;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 50;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: linear-gradient(135deg,#020617,#020617aa);
+      border-radius: 20px;
+      max-width: 1000px;
+      width: 100%;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .viewer {
+      position: relative;
+      height: 360px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: grab;
+    }
+
+    .viewer img {
+      max-width: 100%;
+      max-height: 100%;
+      transition: transform 0.1s linear;
+      user-select: none;
+    }
+
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: white;
+      padding: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .nav.left { left: 10px; }
+    .nav.right { right: 10px; }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .details h2 {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .details p {
+      color: #cbd5f5;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn.primary {
+      background: linear-gradient(90deg,#2563eb,#7c3aed);
+      color: white;
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 768px) {
+      .modal-box {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-
 <body>
 
-<header class="glass-header">
-  <!-- SAME HEADER AS index.html -->
+<header>
+  <h1>TechZone Electronics</h1>
 </header>
-<main style="padding-top:120px">
-  <section class="section-pad">
-    <h1 style="text-align:center;color:var(--primary);margin-bottom:40px;">
-      Our Products
-    </h1>
 
-    <div id="product-container"></div>
-  </section>
-</main>
+<section class="hero">
+  <h2>Premium Electronics <span> </span></h2>
+  
+</section>
 
+<section class="products" id="products"></section>
 
-<footer>
-  <!-- SAME FOOTER AS index.html -->
-</footer>
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="close" onclick="closeModal()">✕</div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+  <div class="modal-box">
+    <div class="viewer" id="viewer">
+      <button class="nav left" onclick="prevImage()">‹</button>
+      <img id="modalImage">
+      <button class="nav right" onclick="nextImage()">›</button>
+    </div>
+
+    <div class="details">
+      <h2 id="modalTitle"></h2>
+      <p id="modalSpecs"></p>
+
+      <button class="btn primary">Contact Us</button>
+      <br><br>
+      <button class="btn secondary">Visit Store</button>
+    </div>
+  </div>
+</div>
 
 <script>
-  new Swiper('.product-swiper', {
-    loop: true,
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    }
+  lucide.createIcons();
+
+ const products = [
+  {
+    name: "iPhone 15 Pro Max",
+    specs: "A17 Pro • Titanium • 256GB",
+    images: [
+      "https://images.unsplash.com/photo-1696446702084-34a56370ea79?w=1000&q=80",
+      "https://images.unsplash.com/photo-1678652197950-91e3de6d0bae?w=1000&q=80",
+      "https://images.unsplash.com/photo-1592286927505-b21f8f11cf54?w=1000&q=80"
+    ]
+  },
+  {
+    name: "Samsung Galaxy S24 Ultra",
+    specs: "Snapdragon 8 Gen 3 • S-Pen",
+    images: [
+      "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=1000&q=80",
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=1000&q=80",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1000&q=80"
+    ]
+  },
+  {
+    name: "MacBook Pro 16-inch",
+    specs: "Apple Silicon • Retina Display",
+    images: [
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1000&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=1000&q=80",
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=1000&q=80"
+    ]
+  },
+  {
+    name: "Apple Watch Ultra",
+    specs: "Titanium • GPS + Cellular",
+    images: [
+      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=1000&q=80",
+      "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=1000&q=80",
+      "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=1000&q=80"
+    ]
+  },
+  {
+    name: "Sony WH-1000XM5",
+    specs: "Noise Cancelling • 30h Battery",
+    images: [
+      "https://images.unsplash.com/photo-1545127398-14699f92334b?w=1000&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1000&q=80",
+      "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=1000&q=80"
+    ]
+  },
+  {
+    name: "Canon EOS R5",
+    specs: "45MP • 8K Video • Full Frame",
+    images: [
+      "https://images.unsplash.com/photo-1606980707656-6e6c27c2e572?w=1000&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=1000&q=80",
+      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1000&q=80"
+    ]
+  }
+];
+
+
+  const grid = document.getElementById("products");
+  const modal = document.getElementById("modal");
+  const modalImage = document.getElementById("modalImage");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalSpecs = document.getElementById("modalSpecs");
+
+  let currentProduct = null;
+  let currentIndex = 0;
+  let rotation = 0;
+  let dragging = false;
+  let startX = 0;
+
+  products.forEach((p, i) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img src="${p.images[0]}">
+      <div class="info">
+        <h3>${p.name}</h3>
+        <p>${p.specs}</p>
+      </div>
+    `;
+    card.onclick = () => openModal(i);
+    grid.appendChild(card);
   });
 
-  GLightbox({ selector: '.glightbox' });
+  function openModal(i) {
+    currentProduct = products[i];
+    currentIndex = 0;
+    rotation = 0;
+    modal.classList.add("active");
+    updateModal();
+  }
+
+  function closeModal() {
+    modal.classList.remove("active");
+  }
+
+  function updateModal() {
+    modalImage.src = currentProduct.images[currentIndex];
+    modalImage.style.transform = `rotate(${rotation}deg)`;
+    modalTitle.textContent = currentProduct.name;
+    modalSpecs.textContent = currentProduct.specs;
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % currentProduct.images.length;
+    updateModal();
+  }
+
+  function prevImage() {
+    currentIndex =
+      (currentIndex - 1 + currentProduct.images.length) %
+      currentProduct.images.length;
+    updateModal();
+  }
+
+  const viewer = document.getElementById("viewer");
+
+  viewer.addEventListener("mousedown", e => {
+    dragging = true;
+    startX = e.clientX;
+  });
+
+  window.addEventListener("mouseup", () => dragging = false);
+
+  viewer.addEventListener("mousemove", e => {
+    if (!dragging) return;
+    const delta = e.clientX - startX;
+    rotation += delta * 0.5;
+    startX = e.clientX;
+    updateModal();
+  });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-<script src="product.js"></script>
 
 </body>
 </html>
